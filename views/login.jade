@@ -1,0 +1,14 @@
+extends layout
+block content
+    h3.page-title #{title}
+    form.reg-form(method='post')
+        p.mess #{errInfo}
+        div.item
+            label.label(for='username') 用户名
+            input(type='text',placeholder='请填写用户名',name='username',id='username')
+        div.item
+            label.label(for='password') 密码
+            input(type='password',placeholder='请填写密码',name='password',id='password')
+        div.item
+            label.label
+            input.btn(type='submit',value='登陆',id='logBtn',name='logBtn')

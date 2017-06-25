@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav.header
+      ul.header-ul
+          li.text
+              a(href='/') Blog
+          li
+              a(href='/list') 列表
+          li
+              a(href='/write') 发布
+          li
+              a(href='/login') 登陆
+          li
+              a(href='/register') 注册
+       div.container
+           block content
+           hr
+           footer
+               p
+                   a(href='https://github.com/SunShinewyf') SunShine
+                   | @2017
+

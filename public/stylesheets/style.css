@@ -32,6 +32,10 @@ a {
   width:90%;
   margin:15px auto;
 }
+.container .mess{
+  color:red;
+  font-size:13px;
+}
 .page-title{
   font-size:20px;
   color:#000;

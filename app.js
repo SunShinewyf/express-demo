@@ -31,6 +31,30 @@ app.use(session({
         mongooseConnection:db.dbCon
     })
 }));
+
+app.use(function(req,res,next){
+    var err = req.session.error;
+    var message = req.session.message;
+    var success = req.session.success;
+    var user = req.session.user;
+    delete  req.session.success;
+    delete  req.session.error;
+    delete  req.session.message;
+    if(err){
+        res.locals.message="*"+err;
+    }
+    if(message){
+        res.locals.message="*"+message;
+    }
+    if(success){
+        res.locals.success=success;
+    }
+    if(user){
+        res.locals.user=user.name;
+    }
+    next();
+    
+})
 app.use('/', routes);
 app.use('/users', users);
 

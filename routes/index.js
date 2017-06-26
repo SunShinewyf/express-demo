@@ -22,7 +22,7 @@ router.post('/register',function(req,res){
     req.session.error = '用户名不得为空';
     return res.redirect('/register');
   }
-  if(password){
+  if(!password){
     req.session.error = '密码不得为空';
     return res.redirect('/register');
   }
@@ -52,10 +52,9 @@ router.post('/register',function(req,res){
       }
       req.session.user = newUser;
       req.session.success = '注册成功';
-      res.redirect('/login');
+      return res.redirect('/login');
     })
   })
-  return res.redirect('/login');
 });
 
 /* 登陆页面*/

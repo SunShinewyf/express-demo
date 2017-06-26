@@ -70,16 +70,16 @@ router.post('/login',function(req,res){
   var newPassword = md5.update(password).digest('base64');
   User.findOne({name:username},function(err,user){
     if(!user) {
-      res.session.error = '用户不存在';
+      req.session.error = '用户不存在';
       return res.redirect('/login');
     }else{
       if(user.password != newPassword){
-        res.session.error = '密码不正确';
+        req.session.error = '密码不正确';
         return res.redirect('/login');
       }
     }
-    res.session.success = '登录成功';
-    res.session.user = user;
+    req.session.success = '登录成功';
+    req.session.user = user;
     return res.redirect('/');
   })
 })

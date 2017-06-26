@@ -84,4 +84,14 @@ router.post('/login',function(req,res){
   })
 })
 
+/*发表页面*/
+router.get('/write',function(req,res,next){
+  res.render('write',{ title:'发表想法'})
+})
+
+/*发表页面逻辑*/
+router.post('/write',function(req,res){
+  
+})
+
 module.exports = router;

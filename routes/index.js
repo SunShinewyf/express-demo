@@ -62,5 +62,26 @@ router.get('/login',function(req,res,next){
   res.render('login', { title:'用户登陆' });
 });
 
+/*登录逻辑*/
+router.post('/login',function(req,res){
+  var username = req.body.username;
+  var password = req.body.password;
+  var md5 = crypto.createHash('md5');
+  var newPassword = md5.update(password).digest('base64');
+  User.findOne({name:username},function(err,user){
+    if(!user) {
+      res.session.error = '用户不存在';
+      return res.redirect('/login');
+    }else{
+      if(user.password != newPassword){
+        res.session.error = '密码不正确';
+        return res.redirect('/login');
+      }
+    }
+    res.session.success = '登录成功';
+    res.session.user = user;
+    return res.redirect('/');
+  })
+})
 
 module.exports = router;

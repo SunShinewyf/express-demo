@@ -58,6 +58,14 @@ router.post('/register',function(req,res){
   })
 });
 
+function getTime(date){
+    return date.getFullYear()+
+        "-"+date.getMonth()+1+"-"+
+        date.getDate()+" "+
+        date.getHours()+":"+
+        date.getMinutes();
+}
+
 /* 登陆页面*/
 router.get('/login',function(req,res,next){
   res.render('login', { title:'用户登陆' });
@@ -95,6 +103,7 @@ router.post('/write',function(req,res){
   var title = req.body.title;
   var content = req.body.content;
   var user = req.session.user;
+  var time = getTime(new Date())
   if(!title){
     req.session.message = '文章标题不得为空';
     return res.redirect('/write');
@@ -106,7 +115,8 @@ router.post('/write',function(req,res){
   var article = new Article({
       title:title,
       content:content,
-      user:user.name
+      user:user,
+      time:time
   })
   article.save(function(err){
     if(err){
@@ -116,6 +126,15 @@ router.post('/write',function(req,res){
     req.session.success = '发表成功';
     return res.redirect('/index');
   })
+});
+
+//文章列表
+router.get('/',function(req,res,next){
+  Article.find({name:req.session.name},function(articles,err){
+    
+  })
+  res.render('/',{title:'文章列表'});
 })
+
 
 module.exports = router;

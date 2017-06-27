@@ -3,6 +3,7 @@ var router = express.Router();
 var crypto = require('crypto');
 var db = require('../db');
 var User = require('../models/user');
+var Article = require('../models/article')
 
 /* 列表页面 */
 router.get('/', function(req, res, next) {
@@ -91,7 +92,30 @@ router.get('/write',function(req,res,next){
 
 /*发表页面逻辑*/
 router.post('/write',function(req,res){
-  
+  var title = req.body.title;
+  var content = req.body.content;
+  var user = req.session.user;
+  if(!title){
+    req.session.message = '文章标题不得为空';
+    return res.redirect('/write');
+  }
+  if(!content){
+    req.session.message = '文章内容不得为空';
+    return res.redirect('/write');
+  }
+  var article = new Article({
+      title:title,
+      content:content,
+      user:user.name
+  })
+  article.save(function(err){
+    if(err){
+      req.session.message = err;
+      return res.redirect('/write');
+    }
+    req.session.success = '发表成功';
+    return res.redirect('/index');
+  })
 })
 
 module.exports = router;

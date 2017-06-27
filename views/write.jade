@@ -1,10 +1,14 @@
 extends layout
 block content
     h3.page-title #{title}
-    form.write-form (method='post')
+    p.mess #{message}
+    form.write-form(method='post')
         div.item
-            label.label(for='text') 此刻的想法：
-            textarea(name='text',id='text',placeholder='说说你现在的想法')
+            label.label(for='title') 标题：
+            input(type='text',id='title',placeholder ='请填写文章标题',name='title')
+        div.item
+            label.label(for='text') 内容：
+            textarea(name='content',id='content',placeholder='说说你的想法')
         div.item
             label.label
             input.btn(type='submit',value='发布',id='publish',name='publishBtn')

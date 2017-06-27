@@ -33,6 +33,7 @@ app.use(session({
 }));
 
 app.use(function(req,res,next){
+    var url = req.originalUrl;
     var err = req.session.error;
     var message = req.session.message;
     var success = req.session.success;
@@ -40,6 +41,10 @@ app.use(function(req,res,next){
     delete  req.session.success;
     delete  req.session.error;
     delete  req.session.message;
+    if((url == '/write' || url == '/') && !req.session.user){
+        req.session.error = '还没登录，请先登录';
+        return res.redirect('/login');
+    }
     if(err){
         res.locals.message="*"+err;
     }

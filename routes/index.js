@@ -6,12 +6,12 @@ var User = require('../models/user');
 var Article = require('../models/article')
 
 /* 列表页面 */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.render('index', { title: 'Simple Demo' });
 });
 
 /* 注册页面*/
-router.get('/register',function(req,res,next){
+router.get('/register',function(req,res){
   res.render('register',{ title: '用户注册' });
 });
 
@@ -67,8 +67,8 @@ function getTime(date){
 }
 
 /* 登陆页面*/
-router.get('/login',function(req,res,next){
-  res.render('login', { title:'用户登陆' });
+router.get('/login',function(req,res){
+  res.render('login', { title:'用户登录' });
 });
 
 /*登录逻辑*/
@@ -94,8 +94,14 @@ router.post('/login',function(req,res){
 })
 
 /*发表页面*/
-router.get('/write',function(req,res,next){
-  res.render('write',{ title:'发表想法'})
+router.get('/write',function(req,res){
+  var user = req.session.user;
+  // if(!user){
+  //   // req.session.error = '还没登录，请先登录';
+  //   res.render('login',{title:'用户登录'});
+  // }else{
+    res.render('write',{ title:'发表想法'});
+  // }
 })
 
 /*发表页面逻辑*/
@@ -103,13 +109,13 @@ router.post('/write',function(req,res){
   var title = req.body.title;
   var content = req.body.content;
   var user = req.session.user;
-  var time = getTime(new Date())
+  var time = getTime(new Date());
   if(!title){
-    req.session.message = '文章标题不得为空';
+    req.session.error = '文章标题不得为空';
     return res.redirect('/write');
   }
   if(!content){
-    req.session.message = '文章内容不得为空';
+    req.session.error = '文章内容不得为空';
     return res.redirect('/write');
   }
   var article = new Article({
@@ -129,11 +135,14 @@ router.post('/write',function(req,res){
 });
 
 //文章列表
-router.get('/',function(req,res,next){
-  Article.find({name:req.session.name},function(articles,err){
-    
-  })
-  res.render('/',{title:'文章列表'});
+router.get('/',function(req,res){
+  var user = req.session.user;
+  // if(!user){
+  //   // res.session.error = '还没登录，请先登录';
+  //   res.render('login',{title:'用户登录'});
+  // }else{
+    res.render('/',{title:'文章列表'});
+  // }
 })
 
 

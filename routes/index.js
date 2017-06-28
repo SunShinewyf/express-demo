@@ -14,8 +14,8 @@ router.get('/', function(req, res) {
             return res.redirect('/',{title:'simple demo'});
         }else{
             res.render('',{
-              articles:articles,
-              title:'文章列表'
+                articles:articles,
+                title:'文章列表'
             });
         }
     })
@@ -106,12 +106,28 @@ router.post('/login',function(req,res){
 
 /*发表页面*/
 router.get('/write',function(req,res){
-  var user = req.session.user;
-    res.render('write',{ title:'发表想法'});
+    var articleId = req.query.id;
+    var title;
+    Article.findOne({_id:articleId},function(err,article){
+      if(err){
+        res.session.message = '数据查询失败';
+        res.render('',{title:'文章列表'});
+      }
+      if(article){
+         title = '文章编辑';
+      }else{
+        title = '发表想法';
+      }
+      res.render('write',{
+          title:title,
+          article:article
+      });
+    })
 })
 
 /*发表页面逻辑*/
 router.post('/write',function(req,res){
+
   var title = req.body.title;
   var content = req.body.content;
   var user = req.session.user;

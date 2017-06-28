@@ -3,12 +3,24 @@ block content
     h3.page-title #{title}
     p.mess #{message}
     form.write-form(method='post')
+        div.item-id
+            label.label(for='id')
+            if (article)
+              input(type='text',name='id',value="#{article._id}")
+            else
+              input(type='text',name='id')
         div.item
             label.label(for='title') 标题：
-            input(type='text',id='title',placeholder ='请填写文章标题',name='title')
+            if (article)
+              input(type='text',id='title',placeholder ='请填写文章标题',name='title',value="#{article.title}")
+            else
+              input(type='text',id='title',placeholder ='请填写文章标题',name='title')
         div.item
             label.label(for='text') 内容：
-            textarea(name='content',id='content',placeholder='说说你的想法')
+            if (article)
+              textarea(name='content',id='content') #{article.content}
+            else
+              textarea(name='content',id='content',placeholder='说说你的想法')
         div.item
             label.label
             input.btn(type='submit',value='发布',id='publish',name='publishBtn')

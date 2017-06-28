@@ -43,6 +43,9 @@ a {
   font-size:20px;
   color:#000;
 }
+.item-id{
+  display: none;
+}
 label{
   color:#000;
   padding-right:10px;

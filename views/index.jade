@@ -14,5 +14,5 @@ block content
                td #{val.content}
                td #{val.time}
                td
-                   a(href='') 删除&nbsp;|&nbsp;
-                   a(href='') 编辑
+                   a(href='/?id=#{val._id}') 删除&nbsp;|&nbsp;
+                   a(href='/write?id=#{val._id}') 编辑

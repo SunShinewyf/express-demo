@@ -4,7 +4,7 @@ a simple web demo with `express+mongoose+jade`,just want to improve understandin
 
 ## run 
 - `git clone https://github.com/SunShinewyf/express-demo.git `
-- cd `express-demo`
+- `cd express-demo`
 - `npm install`
 - `npm start`
 

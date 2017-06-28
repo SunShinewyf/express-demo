@@ -13,9 +13,10 @@ router.get('/', function(req, res) {
             req.session.message = '查询文章失败';
             return res.redirect('/',{title:'simple demo'});
         }else{
-            res.render('/',{
-                articles: articles,
-            })
+            res.render('',{
+              articles:articles,
+              title:'文章列表'
+            });
         }
     })
 });

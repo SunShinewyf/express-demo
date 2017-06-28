@@ -72,6 +72,17 @@ textarea{
   border:1px solid #eee;
   padding-left:10px;
 }
+.list{
+  width:100%;
+  margin: 0 auto;
+  border:1px solid #eee;
+}
+table th,table td{
+  color:#666;
+}
+table td{
+  text-align: center;
+}
 footer{
   background-color: #F5F5F5;
   height:50px;

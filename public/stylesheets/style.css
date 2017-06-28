@@ -28,6 +28,9 @@ a {
   padding-left:10px;
   color:#fff;
 }
+.header-ul .logout{
+  float:right;
+}
 .container{
   width:90%;
   margin:15px auto;

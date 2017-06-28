@@ -1,3 +1,11 @@
 extends layout
 block content
-h3.page-title #{title}
+    h3.page-title #{title}
+    p.mess #{message}
+    ul.list
+        each val in articles
+            li.one
+            p
+            span.title #{val.title}
+            span.content #{val.content}
+            span.time #{val.time}

@@ -7,7 +7,17 @@ var Article = require('../models/article')
 
 /* 列表页面 */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Simple Demo' });
+    var user = req.session.user;
+    Article.find({user:user._id},function(err,articles){
+        if(err){
+            req.session.message = '查询文章失败';
+            return res.redirect('/',{title:'simple demo'});
+        }else{
+            res.render('/',{
+                articles: articles,
+            })
+        }
+    })
 });
 
 /* 注册页面*/
@@ -96,12 +106,7 @@ router.post('/login',function(req,res){
 /*发表页面*/
 router.get('/write',function(req,res){
   var user = req.session.user;
-  // if(!user){
-  //   // req.session.error = '还没登录，请先登录';
-  //   res.render('login',{title:'用户登录'});
-  // }else{
     res.render('write',{ title:'发表想法'});
-  // }
 })
 
 /*发表页面逻辑*/
@@ -121,7 +126,7 @@ router.post('/write',function(req,res){
   var article = new Article({
       title:title,
       content:content,
-      user:user,
+      user:user._id,
       time:time
   })
   article.save(function(err){
@@ -130,19 +135,14 @@ router.post('/write',function(req,res){
       return res.redirect('/write');
     }
     req.session.success = '发表成功';
-    return res.redirect('/index');
+    return res.redirect('/');
   })
 });
 
-//文章列表
-router.get('/',function(req,res){
-  var user = req.session.user;
-  // if(!user){
-  //   // res.session.error = '还没登录，请先登录';
-  //   res.render('login',{title:'用户登录'});
-  // }else{
-    res.render('/',{title:'文章列表'});
-  // }
+//用户退出
+router.get('/logout',function(req,res){
+  req.session.user = null;
+  return res.redirect('/login');
 })
 
 

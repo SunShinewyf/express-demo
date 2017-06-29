@@ -7,6 +7,7 @@ var Article = require('../models/article')
 
 /* 列表页面 */
 router.get('/', function(req, res) {
+    var id = req.query.id;
     var user = req.session.user;
     Article.find({user:user._id},function(err,articles){
         if(err){
@@ -127,7 +128,7 @@ router.get('/write',function(req,res){
 
 /*发表页面逻辑*/
 router.post('/write',function(req,res){
-
+  var id = req.body.id;
   var title = req.body.title;
   var content = req.body.content;
   var user = req.session.user;
@@ -140,20 +141,36 @@ router.post('/write',function(req,res){
     req.session.error = '文章内容不得为空';
     return res.redirect('/write');
   }
-  var article = new Article({
-      title:title,
-      content:content,
-      user:user._id,
-      time:time
-  })
-  article.save(function(err){
-    if(err){
-      req.session.message = err;
-      return res.redirect('/write');
-    }
-    req.session.success = '发表成功';
-    return res.redirect('/');
-  })
+  if(id){
+      Article.update({_id:id},{
+          title:title,
+          content:content,
+          time:getTime(new Date())
+      },function(err){
+          if(err){
+              req.session.message = err;
+              return res.redirect('/write');
+          }else{
+              req.session.success = '更新成功';
+              return res.redirect('/');
+          }
+      })
+  }else{
+      var article = new Article({
+          title:title,
+          content:content,
+          user:user._id,
+          time:time
+      })
+      article.save(function(err){
+          if(err){
+              req.session.message = err;
+              return res.redirect('/write');
+          }
+          req.session.success = '发表成功';
+          return res.redirect('/');
+      })
+  }
 });
 
 //用户退出

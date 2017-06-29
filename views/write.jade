@@ -1,7 +1,7 @@
 extends layout
 block content
     h3.page-title #{title}
-    p.mess #{message}
+    p.mess #{message} #{success}
     form.write-form(method='post')
         div.item-id
             label.label(for='id')

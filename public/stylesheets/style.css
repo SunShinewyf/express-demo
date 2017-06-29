@@ -43,6 +43,9 @@ a {
   font-size:20px;
   color:#000;
 }
+.no-article{
+  color:#666;
+}
 .item-id{
   display: none;
 }

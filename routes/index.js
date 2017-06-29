@@ -9,21 +9,37 @@ var Article = require('../models/article')
 router.get('/', function(req, res) {
     var id = req.query.id;
     var user = req.session.user;
-    Article.find({user:user._id},function(err,articles){
-        if(err){
-            req.session.message = '查询文章失败';
-            return res.redirect('/',{title:'simple demo'});
-        }else{
-            res.render('',{
-                articles:articles,
-                title:'文章列表'
-            });
-        }
-    })
+    if(id){
+        Article.remove({_id:id},function(err){
+            if(err){
+                req.session.message = '删除失败';
+                return res.redirect('/');
+            }else{
+                req.session.success = '删除成功';
+                return res.redirect('/');
+            }
+        });
+    }else{
+        Article.find({user:user._id},function(err,articles){
+            if(err){
+                req.session.message = '查询文章失败';
+                return res.redirect('/',{title:'simple demo'});
+            }else{
+                res.render('',{
+                    articles:articles,
+                    title:'文章列表'
+                });
+            }
+        });
+    }
 });
 
 /* 注册页面*/
 router.get('/register',function(req,res){
+  if(req.session.user){
+      req.session.message = '你已经登录过了';
+      return res.redirect('/');
+  }
   res.render('register',{ title: '用户注册' });
 });
 
@@ -80,6 +96,10 @@ function getTime(date){
 
 /* 登陆页面*/
 router.get('/login',function(req,res){
+  if(req.session.user){
+      req.session.message = '你已经登录过了';
+      return res.redirect('/');
+  }
   res.render('login', { title:'用户登录' });
 });
 

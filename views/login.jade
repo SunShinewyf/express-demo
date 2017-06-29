@@ -2,7 +2,7 @@ extends layout
 block content
     h3.page-title #{title}
     form.reg-form(method='post')
-        p.mess #{message}
+        p.mess #{message} #{success}
         div.item
             label.label(for='username') 用户名：
             input(type='text',placeholder='请填写用户名',name='username',id='username')

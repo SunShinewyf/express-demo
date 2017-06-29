@@ -1,7 +1,11 @@
 extends layout
 block content
     h3.page-title #{title}
-    p.mess #{message}
+    p.mess #{message} #{success}
+    if (!articles.length)
+        p.no-article 还没有文章哟，先来
+           a(href='/write') 发布一篇
+    else
     table.list
         tr
             th 标题
